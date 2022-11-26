@@ -19,7 +19,7 @@ const UserProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser(null);
+    firebase.auth().signOut();
   };
 
   return (
