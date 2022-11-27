@@ -1,15 +1,16 @@
 const { db } = require("../../../db");
 const { collection, getDocs, query, where } = require("firebase/firestore");
+const { response } = require("../../../utils");
 
 const readByUserAndDate = async (req, res) => {
   const statsRef = collection(db, "stats");
-
+  let status = 200;
   let { email, date } = req.params;
 
   if (!email || !date) {
-    return res.status(400).json({
-      message: "Missing email or date",
-    });
+    response.message = "Email and date are required";
+    status = 400;
+    return res.status(status).json(response);
   }
 
   let stat;
@@ -24,21 +25,21 @@ const readByUserAndDate = async (req, res) => {
       stat = doc.data();
     });
   } catch (error) {
-    return res.status(500).json({
-      message: "Error getting stat",
-    });
+    response.message = "Error getting stats";
+    response.error = error.message;
+    status = 500;
+    return res.status(status).json(response);
   }
 
   if (!stat) {
-    return res.status(404).json({
-      message: "Stat not found",
-    });
+    response.message = "No stats found";
+    status = 404;
+    return res.status(status).json(response);
   }
 
-  return res.status(200).json({
-    message: "Stat retrieved successfully",
-    data: stat,
-  });
+  response.message = "Stats retrieved successfully";
+  response.data = stat;
+  return res.status(status).json(response);
 };
 
 module.exports = readByUserAndDate;

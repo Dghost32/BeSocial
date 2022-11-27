@@ -1,8 +1,10 @@
 const { db } = require("../../../db");
 const { collection, getDocs, query, where } = require("firebase/firestore");
+const { response } = require("../../../utils");
 
 const readByUser = async (req, res) => {
   const statsRef = collection(db, "stats");
+  let status = 200;
 
   let { email } = req.params;
   let stats = [];
@@ -13,21 +15,21 @@ const readByUser = async (req, res) => {
       stats.push(doc.data());
     });
   } catch (error) {
-    return res.status(500).json({
-      message: "Error getting stats",
-    });
+    response.message = "Error getting stats";
+    response.error = error.message;
+    status = 500;
+    return res.status(status).json(response);
   }
 
   if (!stats.length) {
-    return res.status(404).json({
-      message: "Stats not found",
-    });
+    response.message = "No stats found";
+    status = 404;
+    return res.status(status).json(response);
   }
 
-  return res.status(200).json({
-    message: "Stats retrieved successfully",
-    data: stats,
-  });
+  response.message = "Stats retrieved successfully";
+  response.data = stats;
+  return res.status(status).json(response);
 };
 
 module.exports = readByUser;
