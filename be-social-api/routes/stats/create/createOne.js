@@ -9,52 +9,56 @@ const {
   where,
 } = require("firebase/firestore");
 // local utilities
-const { getDate } = require("../../../utils");
+const { getDate, response } = require("../../../utils");
 
 const createOne = async (req, res) => {
   const statsRef = collection(db, "stats");
+  let status = 200;
 
-  let { username, stats } = req.body;
+  let { email } = req.params;
+  let { stats } = req.body;
   let date = getDate();
-  let toAdd = { username, stats, date };
+
+  let toAdd = { email, stats, date };
 
   //check there's no record for today
   let q = query(
     statsRef,
-    where("username", "==", username),
+    where("email", "==", email),
     where("date", "==", date)
   );
   const statsSnapshot = await getDocs(q);
   if (statsSnapshot.size > 0) {
-    return res.status(400).json({
-      message: "Stats already added for today",
-    });
+    response.message = "Stats already added for today";
+    status = 202;
+    return res.status(status).json(response);
   }
 
-  if (!username || !stats) {
-    return res.status(400).json({
-      message: "Username and stats are required",
-    });
+  if (!email || !stats) {
+    response.message = "Email and stats are required";
+    status = 400;
+    return res.status(status).json(response);
   }
 
   try {
     let firebaseResponse = await addDoc(statsRef, toAdd);
 
     if (!firebaseResponse.id) {
-      return res.status(500).json({
-        message: "Error adding stats",
-      });
+      response.message = "Error creating stats";
+      status = 500;
+      return res.status(status).json(response);
     }
   } catch (error) {
-    return res.status(500).json({
-      message: "Error adding stats",
-    });
+    response.message = "Error creating stats";
+    response.error = error.message;
+    status = 500;
+    return res.status(status).json(response);
   }
 
-  return res.status(200).json({
-    message: "Stats added successfully",
-    data: toAdd,
-  });
+  response.message = "Stats created successfully";
+  response.data = toAdd;
+  status = 201;
+  return res.status(status).json(response);
 };
 
 module.exports = createOne;

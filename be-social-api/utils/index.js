@@ -3,4 +3,24 @@ let getDate = () => {
   return date;
 };
 
-module.exports = { getDate };
+const validator = (fn) => (req, res) => {
+  if (req.body.secret !== process.env.API_PASS) {
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
+  }
+
+  return fn(req, res).catch((err) => {
+    console.error(err);
+    res.status(500).json({
+      message: "Error",
+    });
+  });
+};
+
+const response = {
+  message: "",
+  data: [],
+};
+
+module.exports = { getDate, validator, response };

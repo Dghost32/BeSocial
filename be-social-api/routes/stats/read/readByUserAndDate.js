@@ -4,11 +4,11 @@ const { collection, getDocs, query, where } = require("firebase/firestore");
 const readByUserAndDate = async (req, res) => {
   const statsRef = collection(db, "stats");
 
-  let { user, date } = req.params;
+  let { email, date } = req.params;
 
-  if (!user || !date) {
+  if (!email || !date) {
     return res.status(400).json({
-      message: "Missing user or date",
+      message: "Missing email or date",
     });
   }
 
@@ -16,7 +16,7 @@ const readByUserAndDate = async (req, res) => {
   try {
     let q = query(
       statsRef,
-      where("username", "==", user),
+      where("email", "==", email),
       where("date", "==", date)
     );
     const statsSnapshot = await getDocs(q);

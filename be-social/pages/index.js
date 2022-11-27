@@ -1,36 +1,41 @@
-import { useState, useEffect, useContext } from "react";
-import { withRouter } from "next/router";
-// import Login from "../components/Home";
-import Dashboard from "../components/Dashboard";
-import Home from "../components/Home";
-import firebase, { signInWithGoogle } from "../services/firebase";
+import { useContext } from "react";
+import { useRouter } from "next/router";
 import { UserContext } from "../context/userContext";
 
 // import "./App.css";
 
 function App() {
-  let { user, setUser, signIn, logout } = useContext(UserContext);
+  let { user, isUserLoggedIn, login, logout } = useContext(UserContext);
+  const router = useRouter();
 
   return (
     <div className="app">
-      <button className="button" onClick={signIn}>
-        Sign in with google
-      </button>
-      {user && (
-        <p>
-          <strong>{user.displayName}</strong>
-        </p>
+      {isUserLoggedIn() ? (
+        <>
+          <p>
+            <strong>{user.displayName}</strong>
+          </p>
+          <button className="button" onClick={logout}>
+            Logout
+          </button>
+          <button
+            className="button"
+            onClick={() => {
+              router.push("/dashboard");
+            }}
+          >
+            Go to dashboard
+          </button>
+        </>
+      ) : (
+        <>
+          <button className="button" onClick={login}>
+            SignIn with google
+          </button>
+        </>
       )}
-      <br></br>
-      <button className="button" onClick={logout}>
-        Logout
-      </button>
-      <br></br>
-      <button className="button" onClick={() => {}}>
-        Go to dashboard
-      </button>
     </div>
   );
 }
 
-export default withRouter(App);
+export default App;

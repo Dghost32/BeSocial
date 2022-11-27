@@ -1,10 +1,13 @@
 import "../styles/globals.css";
 import { UserProvider } from "../context/userContext/index.js";
+import { StatsProvider } from "../context/statsContext";
 
 function MyApp({ Component, pageProps }) {
   return (
     <UserProvider>
-      <Component {...pageProps} />
+      <StatsProvider>
+        <Component {...pageProps} />
+      </StatsProvider>
     </UserProvider>
   );
 }

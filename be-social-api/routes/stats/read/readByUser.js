@@ -4,10 +4,10 @@ const { collection, getDocs, query, where } = require("firebase/firestore");
 const readByUser = async (req, res) => {
   const statsRef = collection(db, "stats");
 
-  let username = req.params.user;
+  let { email } = req.params;
   let stats = [];
   try {
-    let q = query(statsRef, where("username", "==", username));
+    let q = query(statsRef, where("email", "==", email));
     const statsSnapshot = await getDocs(q);
     statsSnapshot.forEach((doc) => {
       stats.push(doc.data());

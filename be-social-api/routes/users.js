@@ -1,10 +1,10 @@
 let express = require("express");
-const { db } = require("../db");
-const { getDocs, collection } = require("firebase/firestore");
-
 let router = express.Router();
-const usersRef = collection(db, "users");
+let login = require("./users/login");
+let { validator } = require("../utils");
 
-//
+require("dotenv").config();
+
+router.post("/login", validator(login));
 
 module.exports = router;
