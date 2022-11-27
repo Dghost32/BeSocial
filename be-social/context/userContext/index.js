@@ -1,6 +1,8 @@
-import axios from "axios";
 import { useState, createContext } from "react";
+// firebase
 import firebase, { signInWithGoogle } from "../../services/firebase";
+// utilities
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const UserContext = createContext();

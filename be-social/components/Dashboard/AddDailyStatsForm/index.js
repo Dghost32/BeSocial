@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { UserContext } from "../../../context/userContext";
+import { StatsContext } from "../../../context/statsContext";
 import Swal from "sweetalert2";
 
 const AddDailyStatsForm = () => {
-  let { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const { addStats } = useContext(StatsContext);
 
   const [formData, setFormData] = useState({
     instagram: 0,
@@ -19,7 +20,7 @@ const AddDailyStatsForm = () => {
     twitch: 0,
   });
 
-  const add = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let stats = {};
@@ -28,25 +29,10 @@ const AddDailyStatsForm = () => {
           stats[key] = formData[key];
         }
       });
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/stats/${user.email}`,
-        {
-          stats,
-          secret: process.env.NEXT_PUBLIC_API_SECRET,
-        }
-      );
 
-      return Swal.fire({
-        icon: "success",
-        title: res.status,
-        text: res.data.message,
-      });
+      await addStats(user, stats);
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong",
-      });
+      console.log(err);
     }
   };
 
@@ -69,7 +55,7 @@ const AddDailyStatsForm = () => {
   });
 
   return (
-    <form onSubmit={add}>
+    <form onSubmit={handleSubmit}>
       {formElements} <button type="submit">submit</button>
     </form>
   );

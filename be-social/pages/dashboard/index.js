@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
-import { useContext } from "react";
+import React, { useEffect, useContext } from "react";
+// next
 import { useRouter } from "next/router";
+// context
 import { UserContext } from "../../context/userContext";
+// components
 import AddDailyStatsForm from "../../components/Dashboard/AddDailyStatsForm";
 
 const Dashboard = () => {

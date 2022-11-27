@@ -1,5 +1,6 @@
 import "../styles/globals.css";
-import { UserProvider } from "../context/userContext/index.js";
+// context providers
+import { UserProvider } from "../context/userContext";
 import { StatsProvider } from "../context/statsContext";
 
 function MyApp({ Component, pageProps }) {

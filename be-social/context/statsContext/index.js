@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState, createContext } from "react";
-import firebase, { signInWithGoogle } from "../../services/firebase";
+// utilities
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const StatsContext = createContext();
@@ -26,23 +26,33 @@ const StatsProvider = ({ children }) => {
   };
 
   const addStats = async (user, stats) => {
+    if (!user) return false;
+
     try {
-      let res = await axios.post(
+      let response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/stats/${user.email}`,
         {
           stats,
+          secret: process.env.NEXT_PUBLIC_API_SECRET,
         }
       );
-      if (res.status === 200) {
-        return res.data;
-      }
+
+      return Swal.fire({
+        title: response.status,
+        text: response.data.message,
+        icon: "success",
+      });
     } catch (err) {
-      console.log(err);
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: err.message,
+      });
     }
   };
 
   return (
-    <StatsContext.Provider value={{ stats, getStats }}>
+    <StatsContext.Provider value={{ stats, getStats, addStats }}>
       {children}
     </StatsContext.Provider>
   );
