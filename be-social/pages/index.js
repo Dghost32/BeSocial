@@ -10,22 +10,12 @@ function App() {
   const router = useRouter();
 
   return (
-    <div
-      className="app"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        height: "100vh",
-        width: "100vw",
-      }}
-    >
+    <div className="app flex flex-col justify-center align-center h-full w-full">
       {isUserLoggedIn() ? (
         <div>
           <Header as="h1">Welcome! {user.displayName}</Header>
 
-          <Button.Group style={{ width: "100%" }}>
+          <Button.Group className="w-100">
             <Button animated primary onClick={logout}>
               <Button.Content visible color="blue">
                 Logout
@@ -53,15 +43,9 @@ function App() {
         </div>
       ) : (
         <>
-          <Header as="h1" style={{ display: "flex" }}>
+          <Header as="h1" className="flex flex-row align-center justify-center">
             Welcome to Be
-            <p
-              style={{
-                color: "#2185d0",
-              }}
-            >
-              Social
-            </p>
+            <p className="color-accent">Social</p>
           </Header>
           <Button
             basic

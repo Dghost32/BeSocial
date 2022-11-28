@@ -7,16 +7,20 @@ const {
   where,
   doc,
 } = require("firebase/firestore");
-const { response } = require("../../../utils");
+const { response, getDate } = require("../../../utils");
 
 const deleteOne = async (req, res) => {
   const statsRef = collection(db, "stats");
   let status = 200;
 
-  let { username, date } = req.body;
+  let { email, date } = req.params;
 
-  if (!username || !date) {
-    response.message = "Username and date are required";
+  if (date === "today") {
+    date = getDate();
+  }
+
+  if (!email || !date) {
+    response.message = "email and date are required";
     status = 400;
     return res.status(status).json(response);
   }
@@ -24,7 +28,7 @@ const deleteOne = async (req, res) => {
   try {
     let q = query(
       statsRef,
-      where("username", "==", username),
+      where("email", "==", email),
       where("date", "==", date)
     );
 

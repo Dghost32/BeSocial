@@ -33,14 +33,15 @@ const StatsProvider = ({ children }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/stats/${user.email}`,
         {
           stats,
-          secret: process.env.NEXT_PUBLIC_API_SECRET,
         }
       );
 
+      let success = Object.keys(response.data.data).length > 0;
+
       return Swal.fire({
-        title: response.status,
+        title: success ? "Great!" : "Don't worry",
         text: response.data.message,
-        icon: "success",
+        icon: success ? "success" : "warning",
       });
     } catch (err) {
       return Swal.fire({
@@ -51,8 +52,32 @@ const StatsProvider = ({ children }) => {
     }
   };
 
+  const deleteStatByDate = async (email, date) => {
+    try {
+      let res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/stats/${email}/${date}`
+      );
+
+      Swal.fire({
+        title: "Great!",
+        text: res.data.message,
+        icon: "success",
+      });
+      return true;
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong! Please try again.",
+      });
+      return false;
+    }
+  };
+
   return (
-    <StatsContext.Provider value={{ stats, getStats, addStats }}>
+    <StatsContext.Provider
+      value={{ stats, getStats, addStats, deleteStatByDate }}
+    >
       {children}
     </StatsContext.Provider>
   );

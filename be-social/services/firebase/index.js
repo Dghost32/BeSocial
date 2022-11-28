@@ -1,7 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-console.log("in");
+// console.log("in");
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,

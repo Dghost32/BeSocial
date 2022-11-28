@@ -7,6 +7,7 @@ const AddDailyStatsForm = () => {
   const { user } = useContext(UserContext);
   const { addStats } = useContext(StatsContext);
 
+  const [addingStats, setAddingStats] = useState(false);
   const [formData, setFormData] = useState({
     instagram: 0,
     facebook: 0,
@@ -20,6 +21,7 @@ const AddDailyStatsForm = () => {
   });
 
   const handleSubmit = async (e) => {
+    setAddingStats(true);
     e.preventDefault();
     try {
       let stats = {};
@@ -33,38 +35,31 @@ const AddDailyStatsForm = () => {
     } catch (err) {
       console.log(err);
     }
+    setAddingStats(false);
   };
 
-  const formElements = Object.keys(formData).map((key) => {
+  const formElements = Object.keys(formData).map((key, index) => {
     return (
-      <>
-        <Form.Field>
-          <Label for={key} type="number">
-            {key.charAt(0).toUpperCase() + key.slice(1)}
-          </Label>
-          <Input
-            type="number"
-            name={key}
-            id={key}
-            onChange={(e) => {
-              setFormData({ ...formData, [key]: e.target.value });
-            }}
-          />
-        </Form.Field>
-      </>
+      <Form.Field key={`${key}-${index}`}>
+        <Label htmlFor={key} type="number">
+          {key.charAt(0).toUpperCase() + key.slice(1)}
+        </Label>
+        <Input
+          type="number"
+          name={key}
+          id={key}
+          onChange={(e) => {
+            setFormData({ ...formData, [key]: e.target.value });
+          }}
+        />
+      </Form.Field>
     );
   });
 
   return (
     <Form onSubmit={handleSubmit}>
       {formElements}
-      <Button
-        secondary
-        type="submit"
-        style={{
-          width: "100%",
-        }}
-      >
+      <Button secondary type="submit" className="w-100" disabled={addingStats}>
         submit
       </Button>
     </Form>

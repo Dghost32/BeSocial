@@ -8,12 +8,16 @@ const readByUser = async (req, res) => {
 
   let { email } = req.params;
   let stats = [];
+  let average = 0;
   try {
     let q = query(statsRef, where("email", "==", email));
     const statsSnapshot = await getDocs(q);
     statsSnapshot.forEach((doc) => {
       stats.push(doc.data());
+      average += doc.data().totalUsage;
     });
+
+    average = average / stats.length;
   } catch (error) {
     response.message = "Error getting stats";
     response.error = error.message;
@@ -23,7 +27,7 @@ const readByUser = async (req, res) => {
 
   if (!stats.length) {
     response.message = "No stats found";
-    status = 404;
+    status = 200;
     return res.status(status).json(response);
   }
 
@@ -40,6 +44,7 @@ const readByUser = async (req, res) => {
   response.message = "Stats retrieved successfully";
   response.data = {
     stats,
+    average,
     labels: days,
     dataset: dailyTotals,
   };

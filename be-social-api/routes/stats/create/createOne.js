@@ -47,6 +47,7 @@ const createOne = async (req, res) => {
   const statsSnapshot = await getDocs(q);
   if (statsSnapshot.size > 0) {
     response.message = "Stats already added for today";
+    response.data = {};
     status = 202;
     return res.status(status).json(response);
   }

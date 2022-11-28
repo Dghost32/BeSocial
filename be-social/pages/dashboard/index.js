@@ -4,8 +4,9 @@ import { useRouter } from "next/router";
 // context
 import { UserContext } from "../../context/userContext";
 // components
-import AddDailyStatsForm from "../../components/Dashboard/AddDailyStatsForm";
-import UserGraphs from "../../components/Dashboard/UserGraphs";
+import AddDailyStatsForm from "../../components/Dashboard/AddStats";
+import Today from "../../components/Dashboard/Today";
+import History from "../../components/Dashboard/History";
 import { Button, Header, Tab, Container, Icon } from "semantic-ui-react";
 import { Audio } from "react-loader-spinner";
 
@@ -30,10 +31,18 @@ const Dashboard = () => {
       ),
     },
     {
-      menuItem: "View Graphs",
+      menuItem: "Today",
       render: () => (
         <Tab.Pane>
-          <UserGraphs />
+          <Today />
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: "History",
+      render: () => (
+        <Tab.Pane>
+          <History />
         </Tab.Pane>
       ),
     },
@@ -45,11 +54,9 @@ const Dashboard = () => {
         <>
           <Container
             text
+            className="flex flex-col justify-center align-center"
             style={{
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
               marginTop: "2rem",
             }}
           >
@@ -63,7 +70,7 @@ const Dashboard = () => {
               Welcome to your
               <p
                 style={{
-                  color: "#2185d0",
+                  color: "var(--accent-color)",
                 }}
               >
                 &nbsp;Dashboard
@@ -116,7 +123,7 @@ const Dashboard = () => {
             width: "100vw",
           }}
         >
-          <Audio />
+          <Audio color="blue" />
         </div>
       )}
     </>

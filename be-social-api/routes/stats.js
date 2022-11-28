@@ -12,10 +12,10 @@ const createOne = require("./stats/create/createOne");
 const deleteOne = require("./stats/delete/deleteOne");
 
 router.post("/:email", validator(createOne));
-router.get("/", readAll);
-router.get("/:email", readByUser);
-router.get("/:email/:date", readByUserAndDate);
+router.get("/", validator(readAll));
+router.get("/:email", validator(readByUser));
+router.get("/:email/:date", validator(readByUserAndDate));
 router.put("/", validator(updateOne));
-router.delete("/", validator(deleteOne));
+router.delete("/:email/:date", validator(deleteOne));
 
 module.exports = router;

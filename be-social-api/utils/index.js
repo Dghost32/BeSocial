@@ -1,13 +1,22 @@
+let allowedOrigins = "http://localhost:3000";
+
 let getDate = () => {
-  let date = new Date().toISOString().split("T")[0];
+  let date = new Date()
+    .toLocaleString("es-CO", {
+      timeZone: "America/Bogota",
+    })
+    .split(",")[0]
+    .replace(/\//g, "-");
+  // Remove comma
   return date;
 };
 
 const validator = (fn) => (req, res) => {
-  if (req.body.secret !== process.env.API_PASS) {
-    return res.status(401).json({
-      message: "Unauthorized",
-    });
+  // const source url
+  var origin = req.get("origin");
+  // if
+  if (origin !== allowedOrigins) {
+    return res.status(403).json({ message: "Not allowed" });
   }
 
   return fn(req, res).catch((err) => {
@@ -26,9 +35,20 @@ let sortObjectBy = (obj, key) => {
   });
 };
 
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const response = {
   message: "",
   data: [],
 };
 
-module.exports = { getDate, validator, response, sortObjectBy };
+module.exports = {
+  getDate,
+  validator,
+  response,
+  sortObjectBy,
+  capitalizeFirstLetter,
+  allowedOrigins,
+};

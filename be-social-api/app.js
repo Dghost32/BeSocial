@@ -7,6 +7,7 @@ let logger = require("morgan");
 let indexRouter = require("./routes/index");
 let statsRouter = require("./routes/stats");
 let usersRouter = require("./routes/users");
+let { allowedOrigins } = require("./utils");
 
 let cors = require("cors");
 
@@ -14,7 +15,7 @@ let app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true,
   })
 );

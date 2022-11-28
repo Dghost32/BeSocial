@@ -14,9 +14,9 @@ const UserProvider = ({ children }) => {
     setUser(user);
   });
 
-  const isUserLoggedIn = () => {
-    return user !== null;
-  };
+  const getUserEmail = () => user.email;
+
+  const isUserLoggedIn = () => user !== null;
 
   const login = async () => {
     try {
@@ -100,7 +100,7 @@ const UserProvider = ({ children }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/stats/${user.email}/${date}`
       );
       let data = res.data;
-      console.log(data.data);
+      // console.log(data.data);
       return data.data;
     } catch (err) {
       console.log(err);
@@ -117,6 +117,7 @@ const UserProvider = ({ children }) => {
         getUserStats,
         getUsersStats,
         getUserStatsByDay,
+        getUserEmail,
       }}
     >
       {children}
