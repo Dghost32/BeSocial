@@ -27,8 +27,20 @@ const readByUser = async (req, res) => {
     return res.status(status).json(response);
   }
 
+  let days = [];
+  let dailyTotals = [];
+  stats.forEach((stat) => {
+    days.push(stat.date);
+    dailyTotals.push(stat.totalUsage);
+  });
+
   response.message = "Stats retrieved successfully";
-  response.data = stats;
+  response.data = {
+    stats,
+    labels: days,
+    dataset: dailyTotals,
+  };
+
   return res.status(status).json(response);
 };
 

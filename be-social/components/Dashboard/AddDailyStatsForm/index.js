@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../../context/userContext";
 import { StatsContext } from "../../../context/statsContext";
+import { Input, Button, Label, Form } from "semantic-ui-react";
 import Swal from "sweetalert2";
 
 const AddDailyStatsForm = () => {
@@ -25,8 +26,8 @@ const AddDailyStatsForm = () => {
     try {
       let stats = {};
       Object.keys(formData).map((key) => {
-        if (formData[key] !== 0) {
-          stats[key] = formData[key];
+        if (formData[key]) {
+          stats[key] = Number(formData[key]);
         }
       });
 
@@ -39,9 +40,11 @@ const AddDailyStatsForm = () => {
   const formElements = Object.keys(formData).map((key) => {
     return (
       <>
-        <div>
-          <label htmlFor={key}>{key}</label>
-          <input
+        <Form.Field>
+          <Label for={key} type="number">
+            {key}
+          </Label>
+          <Input
             type="number"
             name={key}
             id={key}
@@ -49,15 +52,18 @@ const AddDailyStatsForm = () => {
               setFormData({ ...formData, [key]: e.target.value });
             }}
           />
-        </div>
+        </Form.Field>
       </>
     );
   });
 
   return (
-    <form onSubmit={handleSubmit}>
-      {formElements} <button type="submit">submit</button>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      {formElements}
+      <Button primary type="submit">
+        submit
+      </Button>
+    </Form>
   );
 };
 

@@ -18,8 +18,25 @@ const createOne = async (req, res) => {
   let { email } = req.params;
   let { stats } = req.body;
   let date = getDate();
+  let totalUsage = 0;
+  try {
+    Object.keys(stats).forEach((key) => {
+      totalUsage += Number(stats[key]);
+    });
+  } catch (error) {
+    response.message = "Unvalid stat";
+    response.error = error.message;
+    status = 400;
+    return res.status(status).json(response);
+  }
 
-  let toAdd = { email, stats, date };
+  if (totalUsage > 24) {
+    response.message = "Total usage cannot exceed 24 hours";
+    status = 400;
+    return res.status(status).json(response);
+  }
+
+  let toAdd = { email, stats, date, totalUsage };
 
   //check there's no record for today
   let q = query(

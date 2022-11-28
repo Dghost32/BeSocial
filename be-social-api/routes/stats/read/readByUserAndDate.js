@@ -37,8 +37,18 @@ const readByUserAndDate = async (req, res) => {
     return res.status(status).json(response);
   }
 
+  labels = [];
+  dataset = [];
+
+  Object.keys(stat.stats).forEach((mediaApp) => {
+    labels.push(mediaApp);
+    dataset.push(stat.stats[mediaApp]);
+  });
+
   response.message = "Stats retrieved successfully";
-  response.data = stat;
+  response.data.stat = stat;
+  response.data.labels = labels;
+  response.data.dataset = dataset;
   return res.status(status).json(response);
 };
 

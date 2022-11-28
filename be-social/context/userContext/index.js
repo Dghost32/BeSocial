@@ -75,8 +75,53 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const getUserStats = async () => {
+    try {
+      let res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/stats/${user.email}`
+      );
+      let data = res.data;
+      return data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUsersStats = async () => {
+    try {
+      let res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stats`);
+      let data = res.data;
+      return data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUserStatsByDay = async (date) => {
+    try {
+      let res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/stats/${user.email}/${date}`
+      );
+      let data = res.data;
+      console.log(data.data);
+      return data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, isUserLoggedIn, login, logout }}>
+    <UserContext.Provider
+      value={{
+        user,
+        isUserLoggedIn,
+        login,
+        logout,
+        getUserStats,
+        getUsersStats,
+        getUserStatsByDay,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
