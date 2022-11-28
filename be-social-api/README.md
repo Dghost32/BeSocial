@@ -38,16 +38,16 @@ Create Stat for an specific user
 
 ```typescript
 {
-message:  string,
-data:  {
- email:  string,
- totalUsage: number,
- date: Date,
- stats:  {
- ...,
- //facebook: 3,
- //twitter: 1
- <socialMediaName>: number
+ message:  string,
+ data:  {
+  email:  string,
+  totalUsage: number,
+  date: Date,
+  stats:  {
+  ...,
+  //facebook: 3,
+  //twitter: 1
+  <socialMediaName>: number
  },
 }
 ```
@@ -63,24 +63,24 @@ Get all stats from all users
 ```typescript
 [
  {
- message: string,
- labels: string[],
- dataset: number[],
- dailyTotal: number,
- data: [
-  ...,
-  {
-  user_id: string,
-  username: string,  
-  stats: {
+  message: string,
+  labels: string[],
+  dataset: number[],
+  dailyTotal: number,
+  data: [
    ...,
-   //facebook: 3
-   <socialMediaName>: number
-  },  
-  //YYYY/MM/DD
-  date: Date
-  }
- ]
+   {
+   user_id: string,
+   username: string,  
+   stats: {
+    ...,
+    //facebook: 3
+    <socialMediaName>: number
+   },  
+   //YYYY/MM/DD
+   date: Date
+   }
+  ]
  }
 ]
 ```
