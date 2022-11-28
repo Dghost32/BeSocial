@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../../../context/userContext";
 import { StatsContext } from "../../../context/statsContext";
 import { Input, Button, Label, Form } from "semantic-ui-react";
-import Swal from "sweetalert2";
 
 const AddDailyStatsForm = () => {
   const { user } = useContext(UserContext);
@@ -14,11 +13,10 @@ const AddDailyStatsForm = () => {
     twitter: 0,
     youtube: 0,
     tiktok: 0,
-    snapchat: 0,
-    pinterest: 0,
     linkedin: 0,
     reddit: 0,
     twitch: 0,
+    pinterest: 0,
   });
 
   const handleSubmit = async (e) => {
@@ -42,7 +40,7 @@ const AddDailyStatsForm = () => {
       <>
         <Form.Field>
           <Label for={key} type="number">
-            {key}
+            {key.charAt(0).toUpperCase() + key.slice(1)}
           </Label>
           <Input
             type="number"
@@ -60,7 +58,13 @@ const AddDailyStatsForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       {formElements}
-      <Button primary type="submit">
+      <Button
+        secondary
+        type="submit"
+        style={{
+          width: "100%",
+        }}
+      >
         submit
       </Button>
     </Form>

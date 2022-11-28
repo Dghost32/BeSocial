@@ -18,9 +18,17 @@ const validator = (fn) => (req, res) => {
   });
 };
 
+let sortObjectBy = (obj, key) => {
+  return obj.sort((a, b) => {
+    let x = a[key];
+    let y = b[key];
+    return x < y ? -1 : x > y ? 1 : 0;
+  });
+};
+
 const response = {
   message: "",
   data: [],
 };
 
-module.exports = { getDate, validator, response };
+module.exports = { getDate, validator, response, sortObjectBy };

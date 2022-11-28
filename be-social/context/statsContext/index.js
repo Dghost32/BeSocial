@@ -46,7 +46,7 @@ const StatsProvider = ({ children }) => {
       return Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: err.message,
+        text: "Something went wrong! Please check your stats and try again.",
       });
     }
   };

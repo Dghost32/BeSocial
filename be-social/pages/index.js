@@ -53,7 +53,16 @@ function App() {
         </div>
       ) : (
         <>
-          <Header as="h1">Welcome to BeSocial</Header>
+          <Header as="h1" style={{ display: "flex" }}>
+            Welcome to Be
+            <p
+              style={{
+                color: "#2185d0",
+              }}
+            >
+              Social
+            </p>
+          </Header>
           <Button
             basic
             color="blue"

@@ -1,6 +1,6 @@
 const { db } = require("../../../db");
 const { collection, getDocs, query, where } = require("firebase/firestore");
-const { response } = require("../../../utils");
+const { response, sortObjectBy } = require("../../../utils");
 
 const readByUser = async (req, res) => {
   const statsRef = collection(db, "stats");
@@ -29,6 +29,9 @@ const readByUser = async (req, res) => {
 
   let days = [];
   let dailyTotals = [];
+
+  sortObjectBy(stats, "date");
+
   stats.forEach((stat) => {
     days.push(stat.date);
     dailyTotals.push(stat.totalUsage);

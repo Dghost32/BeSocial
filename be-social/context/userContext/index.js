@@ -32,16 +32,13 @@ const UserProvider = ({ children }) => {
         }
       );
 
-      let data = res.data;
-
       if (res.status === 200) {
         return Swal.fire({
+          title: "You're logged in!",
+          text: "Welcome back!",
           icon: "success",
-          title: "Login Success",
-          text: data.created ? "Glad you're here!" : "Welcome back!",
         });
       }
-
       Swal.fire({
         icon: "error",
         title: "Login Failed",
@@ -63,7 +60,7 @@ const UserProvider = ({ children }) => {
 
       return Swal.fire({
         icon: "success",
-        title: "Logout Success",
+        title: "You have been logged out",
         text: "See you soon!",
       });
     } catch (err) {

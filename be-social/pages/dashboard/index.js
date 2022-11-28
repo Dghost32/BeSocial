@@ -63,10 +63,10 @@ const Dashboard = () => {
               Welcome to your
               <p
                 style={{
-                  color: "blue",
+                  color: "#2185d0",
                 }}
               >
-                &nbsp;DASHBOARD
+                &nbsp;Dashboard
               </p>
               !
             </Header>
@@ -84,6 +84,7 @@ const Dashboard = () => {
                   <Icon name="arrow left" />
                 </Button.Content>
               </Button>
+
               <Button animated secondary onClick={() => router.push("/")}>
                 <Button.Content visible color="blue">
                   Go back to main page
