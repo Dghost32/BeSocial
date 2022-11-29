@@ -16,6 +16,8 @@ const UserProvider = ({ children }) => {
 
   const getUserEmail = () => user.email;
 
+  const getUserName = () => user.displayName;
+
   const isUserLoggedIn = () => user !== null;
 
   const login = async () => {
@@ -33,11 +35,12 @@ const UserProvider = ({ children }) => {
       );
 
       if (res.status === 200) {
-        return Swal.fire({
-          title: "You're logged in!",
-          text: "Welcome back!",
-          icon: "success",
-        });
+        // return Swal.fire({
+        //   title: "You're logged in!",
+        //   text: "Welcome back!",
+        //   icon: "success",
+        // });
+        return;
       }
       Swal.fire({
         icon: "error",
@@ -55,20 +58,32 @@ const UserProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    try {
-      await firebase.auth().signOut();
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    });
 
-      return Swal.fire({
-        icon: "success",
-        title: "You have been logged out",
-        text: "See you soon!",
-      });
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: err.message,
-      });
+    if (confirm.isConfirmed) {
+      try {
+        await firebase.auth().signOut();
+
+        return;
+        // Swal.fire({
+        // icon: "success",
+        // title: "You have been logged out",
+        // text: "See you soon!",
+        // });
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.message,
+        });
+      }
     }
   };
 
@@ -118,6 +133,7 @@ const UserProvider = ({ children }) => {
         getUsersStats,
         getUserStatsByDay,
         getUserEmail,
+        getUserName,
       }}
     >
       {children}
