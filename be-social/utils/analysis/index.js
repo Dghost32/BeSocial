@@ -1,4 +1,5 @@
-const getAverage = (array) => array.reduce((a, b) => a + b) / array.length;
+const getAverage = (array) =>
+  Math.floor(array.reduce((a, b) => a + b) / array.length);
 
 const getMax = (array) => array.reduce((a, b) => Math.max(a, b));
 
