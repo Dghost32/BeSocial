@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../../context/userContext";
-import { Header, Statistic, Icon, Step, Item } from "semantic-ui-react";
+import { Header, Statistic, Icon } from "semantic-ui-react";
 import { Audio } from "react-loader-spinner";
 import {
   getAverage,

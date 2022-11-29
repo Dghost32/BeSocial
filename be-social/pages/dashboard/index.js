@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 // context
 import { UserContext } from "../../context/userContext";
 // components
-import AddDailyStatsForm from "../../components/Dashboard/Add/AddForm";
 import Today from "../../components/Dashboard/Today";
 import History from "../../components/Dashboard/History";
 import { Button, Header, Tab, Container, Icon } from "semantic-ui-react";
