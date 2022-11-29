@@ -81,6 +81,12 @@ const Home = () => {
       </Container>
 
       <Container>
+        <Header as="h2">
+          <p className="color-accent">
+            Social Networks: an environment that favors the development of
+            mental disorders in GenZ.
+          </p>
+        </Header>
         <p style={{ textAlign: "justify", fontSize: "1.5em" }}>
           The use of social networks has increased generationally, this has
           caused people born between 1995 and 2020 to not know a social or
